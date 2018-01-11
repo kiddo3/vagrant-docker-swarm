@@ -6,7 +6,7 @@
 # backwards compatibility). Please don't change it unless you know what
 # you're doing.
 
-auto = ENV['AUTO_START_SWARM'] || false
+auto = ENV['AUTO_START_SWARM'] || true
 # Increase numworkers if you want more than 3 nodes
 numworkers = 2
 
@@ -31,13 +31,20 @@ File.open("./hosts", 'w') { |file|
 }
 
 Vagrant.configure("2") do |config|
+    config.vm.box = "bento/ubuntu-16.04"
+    config.vbguest.auto_update = false
+
     config.vm.provider "virtualbox" do |v|
      	v.memory = vmmemory
-  	v.cpus = numcpu
+  	  v.cpus = numcpu
+    end
+
+    if Vagrant.has_plugin?("vagrant-cachier")
+      config.cache.scope = :box
+      config.cache.auto_detect = true
     end
     
     config.vm.define "manager" do |i|
-      i.vm.box = "ubuntu/trusty64"
       i.vm.hostname = "manager"
       i.vm.network "private_network", ip: "#{manager_ip}"
       i.vm.provision "shell", path: "./provision.sh"
@@ -53,7 +60,6 @@ Vagrant.configure("2") do |config|
 
   instances.each do |instance| 
     config.vm.define instance[:name] do |i|
-      i.vm.box = "ubuntu/trusty64"
       i.vm.hostname = instance[:name]
       i.vm.network "private_network", ip: "#{instance[:ip]}"
       i.vm.provision "shell", path: "./provision.sh"

@@ -1,7 +1,7 @@
 # Docker Swarm Vagrant
 
 This is a simple Vagrantfile which can be used to spin few nodes with Docker 1.12+ installed. You
-can play with Docker Swarm on it. Boxes are Ubuntu Trusty amd64. 
+can play with Docker Swarm on it. Boxes are Ubuntu Xenial amd64. 
 
 # Docker Swarm
 
@@ -171,4 +171,6 @@ MIT
 # Author 
 Inspired by `denverdino/docker-swarm-mode-vagrant` and `lowescott/learning-tools` repos. 
 
-Dariusz Dwornikowski @tdi
+By Dariusz Dwornikowski @tdi
+
+Adapted to new version docker-ce by me
